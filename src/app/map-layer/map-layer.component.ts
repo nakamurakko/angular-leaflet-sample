@@ -9,8 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MapLayerComponent implements OnInit {
 
+  /** マップ情報。 */
   public mapInfo?: leaflet.Map;
 
+  /** マップ表示対象のエレメントID。 */
   public readonly mapElementId: string = 'mapInfo';
 
   public constructor() { }
