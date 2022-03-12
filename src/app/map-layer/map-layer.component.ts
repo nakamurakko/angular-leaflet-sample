@@ -13,7 +13,7 @@ export class MapLayerComponent implements OnInit {
   public mapInfo?: leaflet.Map;
 
   /** マップ表示対象のエレメントID。 */
-  public readonly mapElementId: string = 'mapInfo';
+  private readonly mapElementId: string = 'mapInfo';
 
   public constructor() { }
 
