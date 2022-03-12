@@ -14,6 +14,16 @@ import { MapService } from '../services/map.service';
 })
 export class MapLayerComponent implements OnInit {
 
+  private _showMarkerLayer: boolean = true;
+  /** マーカーレイヤーの表示可否を決める。 */
+  public get showMarkerLayer(): boolean {
+    return this._showMarkerLayer;
+  }
+  public set showMarkerLayer(v: boolean) {
+    this._showMarkerLayer = v;
+    this.setMarkerLayerVisibility(v);
+  }
+
   /** マップ情報。 */
   public map?: leaflet.Map;
 
@@ -45,4 +55,19 @@ export class MapLayerComponent implements OnInit {
     this.mapService.addClickEventForMap(this.map, this.markerLayer);
   }
 
+  /**
+   * マーカーレイヤーの表示、非表示を切り替える。
+   *
+   * @param visible true … 表示する。
+   */
+  private setMarkerLayerVisibility(visible: boolean): void {
+    if (this.map != null && this.markerLayer != null) {
+      if (visible) {
+        this.map.addLayer(this.markerLayer);
+      }
+      else {
+        this.map.removeLayer(this.markerLayer);
+      }
+    }
+  }
 }
