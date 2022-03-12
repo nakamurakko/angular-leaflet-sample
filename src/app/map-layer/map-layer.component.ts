@@ -1,6 +1,11 @@
+import 'leaflet.markercluster';
+
 import * as leaflet from 'leaflet';
 
 import { Component, OnInit } from '@angular/core';
+
+import { Facility } from '../data-types/facility';
+import { MapService } from '../services/map.service';
 
 @Component({
   selector: 'app-map-layer',
@@ -10,23 +15,34 @@ import { Component, OnInit } from '@angular/core';
 export class MapLayerComponent implements OnInit {
 
   /** マップ情報。 */
-  public mapInfo?: leaflet.Map;
+  public map?: leaflet.Map;
+
+  public tileLayer?: leaflet.TileLayer;
+
+  public markerLayer?: leaflet.MarkerClusterGroup
 
   /** マップ表示対象のエレメントID。 */
   private readonly mapElementId: string = 'mapInfo';
 
-  public constructor() { }
+  public constructor(private mapService: MapService) { }
 
   public ngOnInit(): void {
-    this.mapInfo = new leaflet.Map(this.mapElementId).setView([33.59, 130.420611], 15);
+    const hakataStation: Facility = new Facility('博多駅', new leaflet.LatLng(33.59, 130.420611));
+    this.map = new leaflet.Map(this.mapElementId).setView(hakataStation.coordinate, 15);
 
-    new leaflet.TileLayer(
+    this.tileLayer = new leaflet.TileLayer(
       'https://tile.openstreetmap.jp/{z}/{x}/{y}.png',
       {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright/">OpenStreetMap</a>'
       }
-    )
-      .addTo(this.mapInfo);
+    );
+    this.map.addLayer(this.tileLayer);
+
+    this.markerLayer = new leaflet.MarkerClusterGroup();
+    this.markerLayer.addLayer(this.mapService.createMaker(hakataStation));
+    this.map.addLayer(this.markerLayer);
+
+    this.mapService.addClickEventForMap(this.map, this.markerLayer);
   }
 
 }
