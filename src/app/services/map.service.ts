@@ -37,7 +37,7 @@ export class MapService {
 
     this.addDoubleClickEventForMarker(marker, markerLayer);
 
-    // マーカークリック時のポップアップ。
+    // マーカークリック時に表示するポップアップを設定する。
     let contentHTML: string = '';
     contentHTML += '<div style="display: flex;">';
     contentHTML += '    <div>';
@@ -84,6 +84,7 @@ export class MapService {
       return;
     }
 
+    // マップクリック時に新しいマーカーを追加する。
     map.on('click', (e: leaflet.LeafletMouseEvent) => {
       const facility: Facility = new Facility('', new leaflet.LatLng(e.latlng.lat, e.latlng.lng));
 
@@ -102,6 +103,7 @@ export class MapService {
       return;
     }
 
+    // マーカーダブルクリック時に対象マーカーを削除する。
     marker.on('dblclick', () => {
       markerLayer.removeLayer(marker);
 
