@@ -1,3 +1,5 @@
+import 'leaflet.markercluster';
+
 import * as leaflet from 'leaflet';
 
 import { Injectable } from '@angular/core';
