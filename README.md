@@ -11,5 +11,5 @@ Copyright OpenStreetMap <https://www.openstreetmap.org>
 
 ```typescript
 import 'leaflet.markercluster'; // MarkerClusterGroup を使用する際に必要。
-import * as leaflet from 'leaflet'; // Leaflet は他ライブラリーと重複するクラス名が存在するため、別名でインポートする。
+import * as leaflet from 'leaflet'; // Leaflet は Map 、 map などが他ライブラリーと重複しやすいため、別名でインポートする。
 ```
