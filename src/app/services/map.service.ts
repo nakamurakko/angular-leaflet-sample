@@ -108,7 +108,6 @@ export class MapService {
     // マーカーダブルクリック時に対象マーカーを削除する。
     marker.on('dblclick', () => {
       markerLayer.removeLayer(marker);
-
       marker.remove();
     });
   }
