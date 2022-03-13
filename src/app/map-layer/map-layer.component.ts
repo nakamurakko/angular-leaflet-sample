@@ -27,8 +27,10 @@ export class MapLayerComponent implements OnInit {
   /** マップ情報。 */
   public map?: leaflet.Map;
 
+  /** マップタイルレイヤー。 */
   public tileLayer?: leaflet.TileLayer;
 
+  /** マーカーレイヤー。 */
   public markerLayer?: leaflet.MarkerClusterGroup
 
   /** マップ表示対象のエレメントID。 */
@@ -49,7 +51,7 @@ export class MapLayerComponent implements OnInit {
     this.map.addLayer(this.tileLayer);
 
     this.markerLayer = new leaflet.MarkerClusterGroup();
-    this.markerLayer.addLayer(this.mapService.createMaker(hakataStation));
+    this.markerLayer.addLayer(this.mapService.createMaker(hakataStation, this.markerLayer));
     this.map.addLayer(this.markerLayer);
 
     this.mapService.addClickEventForMap(this.map, this.markerLayer);
