@@ -52,7 +52,7 @@ export class MapLayerComponent implements OnInit {
         this.markerLayer = new leaflet.MarkerClusterGroup();
 
         for (let i: number = 0; i < stations.length; i++) {
-          this.markerLayer.addLayer(this.mapService.createMaker(stations[i], this.markerLayer));
+          this.markerLayer.addLayer(this.mapService.createMaker(stations[i], this.markerLayer, 'train'));
         }
 
         this.map.addLayer(this.markerLayer);

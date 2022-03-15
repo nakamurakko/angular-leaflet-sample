@@ -22,9 +22,10 @@ export class MapService {
    *
    * @param facility 施設情報。
    * @param markerLayer マーカーレイヤー。
+   * @param materialIconName Material Icon を指定する。 <https://fonts.google.com/icons?selected=Material+Icons>
    * @returns マーカー。
    */
-  public createMaker(facility: Facility, markerLayer: leaflet.MarkerClusterGroup): leaflet.Marker {
+  public createMaker(facility: Facility, markerLayer: leaflet.MarkerClusterGroup, materialIconName: string = ''): leaflet.Marker {
     const marker: leaflet.Marker = new leaflet.Marker(
       facility.coordinate,
       {
@@ -44,7 +45,7 @@ export class MapService {
     let contentHTML: string = '';
     contentHTML += '<div style="display: flex;">';
     contentHTML += '    <div>';
-    contentHTML += '        <img src="assets/marker-icon.png" />';
+    contentHTML += (materialIconName == '') ? '        <img src="assets/marker-icon.png" />' : '        <span class="material-icons">' + materialIconName + '</span>';
     contentHTML += '    </div>';
     contentHTML += '    <div>';
     contentHTML += '        <span>' + facility.name + '</span>';
