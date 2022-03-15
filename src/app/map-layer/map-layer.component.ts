@@ -4,7 +4,6 @@ import * as leaflet from 'leaflet';
 
 import { Component, OnInit } from '@angular/core';
 
-import { Facility } from '../data-types/facility';
 import { MapService } from '../services/map.service';
 
 @Component({
@@ -39,22 +38,27 @@ export class MapLayerComponent implements OnInit {
   public constructor(private mapService: MapService) { }
 
   public ngOnInit(): void {
-    const hakataStation: Facility = new Facility('博多駅', new leaflet.LatLng(33.59, 130.420611));
-    this.map = new leaflet.Map(this.mapElementId).setView(hakataStation.coordinate, 15);
+    this.mapService.getStations()
+      .subscribe(stations => {
+        this.map = new leaflet.Map(this.mapElementId).setView(stations[0].coordinate, 15);
+        this.tileLayer = new leaflet.TileLayer(
+          'https://tile.openstreetmap.jp/{z}/{x}/{y}.png',
+          {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright/">OpenStreetMap</a>'
+          }
+        );
+        this.map.addLayer(this.tileLayer);
 
-    this.tileLayer = new leaflet.TileLayer(
-      'https://tile.openstreetmap.jp/{z}/{x}/{y}.png',
-      {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright/">OpenStreetMap</a>'
-      }
-    );
-    this.map.addLayer(this.tileLayer);
+        this.markerLayer = new leaflet.MarkerClusterGroup();
 
-    this.markerLayer = new leaflet.MarkerClusterGroup();
-    this.markerLayer.addLayer(this.mapService.createMaker(hakataStation, this.markerLayer));
-    this.map.addLayer(this.markerLayer);
+        for (let i: number = 0; i < stations.length; i++) {
+          this.markerLayer.addLayer(this.mapService.createMaker(stations[i], this.markerLayer));
+        }
 
-    this.mapService.addClickEventForMap(this.map, this.markerLayer);
+        this.map.addLayer(this.markerLayer);
+
+        this.mapService.addClickEventForMap(this.map, this.markerLayer);
+      });
   }
 
   /**

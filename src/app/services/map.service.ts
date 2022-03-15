@@ -1,6 +1,7 @@
 import 'leaflet.markercluster';
 
 import * as leaflet from 'leaflet';
+import { defer, Observable, of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
@@ -55,7 +56,7 @@ export class MapService {
     contentHTML += '                </tr>';
     contentHTML += '                <tr>';
     contentHTML += '                    <td>緯度</td>';
-    contentHTML += '                    <td>' + facility.coordinate.lng.toString() +'</td>';
+    contentHTML += '                    <td>' + facility.coordinate.lng.toString() + '</td>';
     contentHTML += '                </tr>';
     contentHTML += '            </tbody>';
     contentHTML += '        </table>';
@@ -111,4 +112,26 @@ export class MapService {
       marker.remove();
     });
   }
+
+  /**
+   * 駅情報を取得する。
+   *
+   * @returns 駅情報の一覧。
+   */
+  public getStations(): Observable<Array<Facility>> {
+    return defer(() => {
+      const stations: Array<Facility> = new Array<Facility>(
+        new Facility('博多駅', new leaflet.LatLng(33.59, 130.420611)),
+        new Facility('大分駅', new leaflet.LatLng(33.233375, 131.606453)),
+        new Facility('宮崎駅', new leaflet.LatLng(31.915675, 131.432017)),
+        new Facility('佐賀駅', new leaflet.LatLng(33.264239, 130.297164)),
+        new Facility('長崎駅', new leaflet.LatLng(32.752336, 129.871964)),
+        new Facility('熊本駅', new leaflet.LatLng(32.789333, 130.688694)),
+        new Facility('鹿児島駅', new leaflet.LatLng(31.601497, 130.563114)),
+      );
+
+      return of(stations);
+    });
+  }
+
 }
