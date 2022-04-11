@@ -7,7 +7,7 @@ Copyright OpenStreetMap <https://www.openstreetmap.org>
 
 ## Leaflet のインポート
 
-このサンプルで Leaflet を使用する場合、下記のようにインポートするように統一した。
+このサンプルで Leaflet を使用する場合、下記のようにインポート方法を統一した。
 
 ```typescript
 import 'leaflet.markercluster'; // MarkerClusterGroup を使用する際に必要。
