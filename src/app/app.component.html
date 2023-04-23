@@ -1,9 +1,11 @@
 <mat-toolbar class="mat-primary">
   <mat-toolbar-row>
     <span class="mat-line">{{title}}</span>
-    <button mat-raised-button
-            routerLink="map-layer">Map layer</button>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<mat-slide-toggle [(ngModel)]="showMarkerLayer">Show Marker</mat-slide-toggle>
+<div class="map-layer-div"
+     id="mapInfo"></div>
 
 <router-outlet></router-outlet>

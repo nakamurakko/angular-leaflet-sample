@@ -9,12 +9,10 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MapLayerComponent } from './map-layer/map-layer.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MapLayerComponent
+    AppComponent
   ],
   imports: [
     AppRoutingModule,
