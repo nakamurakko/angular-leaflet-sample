@@ -1,13 +1,26 @@
 import * as leaflet from 'leaflet';
 
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterOutlet } from '@angular/router';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { MapService } from './services/map.service';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [
+    FormsModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    LeafletModule,
+    RouterOutlet
+  ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
 

@@ -4,6 +4,7 @@ import * as leaflet from 'leaflet';
  * 施設クラス。
  */
 export class Facility {
+
   /** 名称。 */
   public name: string;
   /** 座標 */
@@ -18,4 +19,5 @@ export class Facility {
     this.name = name;
     this.coordinate = coordinate;
   }
+
 }
