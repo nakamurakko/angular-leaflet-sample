@@ -1,0 +1,12 @@
+<mat-toolbar class="mat-primary">
+  <mat-toolbar-row>
+    <span class="mat-line">{{title()}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-slide-toggle [checked]="showMarkerLayer()"
+                  (change)="onShowMarkerChange($event)">Show Marker</mat-slide-toggle>
+<div class="map-layer-div"
+     id="mapInfo"></div>
+
+<router-outlet></router-outlet>

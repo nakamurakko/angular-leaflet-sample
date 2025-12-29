@@ -1,8 +1,7 @@
 import * as leaflet from 'leaflet';
 
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
 
@@ -11,41 +10,33 @@ import { MapService } from './services/map.service';
 @Component({
   selector: 'app-root',
   imports: [
-    FormsModule,
     MatSlideToggleModule,
     MatToolbarModule,
     RouterOutlet
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  templateUrl: './app.html',
+  styleUrl: './app.css'
 })
-export class AppComponent {
+export class App implements OnInit {
 
-  public title: string = 'angular-leaflet-sample';
-
-  private _showMarkerLayer: boolean = true;
-  /** マーカーレイヤーの表示可否を決める。 */
-  public get showMarkerLayer(): boolean {
-    return this._showMarkerLayer;
-  }
-  public set showMarkerLayer(v: boolean) {
-    this._showMarkerLayer = v;
-    this.setMarkerLayerVisibility(v);
-  }
+  private mapService = inject(MapService);
 
   /** マップ情報。 */
-  public map?: leaflet.Map;
+  private map?: leaflet.Map;
 
   /** マップタイルレイヤー。 */
-  public tileLayer?: leaflet.TileLayer;
+  private tileLayer?: leaflet.TileLayer;
 
   /** マーカーレイヤー。 */
-  public markerLayer?: leaflet.MarkerClusterGroup
+  private markerLayer?: leaflet.MarkerClusterGroup;
 
   /** マップ表示対象のエレメントID。 */
   private readonly mapElementId: string = 'mapInfo';
 
-  public constructor(private mapService: MapService) { }
+  protected readonly title = signal<string>('angular-leaflet-sample');
+
+  /** マーカーレイヤーの表示可否を決める。 */
+  public showMarkerLayer = signal<boolean>(true);
 
   public ngOnInit(): void {
     this.mapService.getStations()
@@ -61,8 +52,8 @@ export class AppComponent {
 
         this.markerLayer = new leaflet.MarkerClusterGroup();
 
-        for (let i: number = 0; i < stations.length; i++) {
-          this.markerLayer.addLayer(this.mapService.createMaker(stations[i], this.markerLayer, 'train'));
+        for (const station of stations) {
+          this.markerLayer.addLayer(this.mapService.createMaker(station, this.markerLayer, 'train'));
         }
 
         this.map.addLayer(this.markerLayer);
@@ -73,12 +64,12 @@ export class AppComponent {
 
   /**
    * マーカーレイヤーの表示、非表示を切り替える。
-   *
-   * @param visible true … 表示する。
+   * @param event イベントデータ。
    */
-  private setMarkerLayerVisibility(visible: boolean): void {
+  public onShowMarkerChange(event: MatSlideToggleChange): void {
+    this.showMarkerLayer.set(event.checked);
     if (this.map != null && this.markerLayer != null) {
-      if (visible) {
+      if (event.checked) {
         this.map.addLayer(this.markerLayer);
       }
       else {

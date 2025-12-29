@@ -11,11 +11,9 @@ import { Facility } from '../data-types/facility';
  * 地図サービス。
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MapService {
-
-  public constructor() { }
 
   /**
    * マーカーを生成する。
@@ -31,8 +29,8 @@ export class MapService {
       {
         icon: new leaflet.Icon(
           {
-            iconUrl: 'assets/marker-icon.png',
-            shadowUrl: 'assets/marker-shadow.png',
+            iconUrl: 'public/marker-icon.png',
+            shadowUrl: 'public/marker-shadow.png',
             iconAnchor: new leaflet.Point(13, 41)
           }
         )
@@ -43,7 +41,7 @@ export class MapService {
     let contentHTML: string = '';
     contentHTML += '<div style="display: flex;">';
     contentHTML += '    <div>';
-    contentHTML += (materialIconName == '') ? '        <img src="assets/marker-icon.png" />' : '        <span class="material-icons">' + materialIconName + '</span>';
+    contentHTML += (materialIconName == '') ? '        <img src="public/marker-icon.png" />' : '        <span class="material-icons">' + materialIconName + '</span>';
     contentHTML += '    </div>';
     contentHTML += '    <div>';
     contentHTML += '        <span>' + facility.name + '</span>';
@@ -99,9 +97,9 @@ export class MapService {
    *
    * @returns 駅情報の一覧。
    */
-  public getStations(): Observable<Array<Facility>> {
+  public getStations(): Observable<Facility[]> {
     return defer(() => {
-      const stations: Array<Facility> = new Array<Facility>(
+      const stations: Facility[] = [
         new Facility('博多駅', new leaflet.LatLng(33.59, 130.420611)),
         new Facility('大分駅', new leaflet.LatLng(33.233375, 131.606453)),
         new Facility('宮崎駅', new leaflet.LatLng(31.915675, 131.432017)),
@@ -109,7 +107,7 @@ export class MapService {
         new Facility('長崎駅', new leaflet.LatLng(32.752336, 129.871964)),
         new Facility('熊本駅', new leaflet.LatLng(32.789333, 130.688694)),
         new Facility('鹿児島駅', new leaflet.LatLng(31.601497, 130.563114)),
-      );
+      ];
 
       return of(stations);
     });
